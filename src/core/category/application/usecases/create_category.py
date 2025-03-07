@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from uuid import UUID
+from src.core.category.application.category_repository import CategoryRepository
 from src.core.category.application.usecases.exceptions import InvalidCategory
 from src.core.category.domain.category import Category
 
@@ -13,15 +14,8 @@ class CreateCategoryRequest:
 class CreateCategoryResponse:
     id: UUID
 
-class InMemoryCategoryRepository:
-    def __init__(self, categories=None):
-        self.categories = categories or []
-
-    def save(self, category):
-        self.categories.append(category)
-
 class CreateCategoryUseCase:
-    def __init__(self, repository: InMemoryCategoryRepository):
+    def __init__(self, repository: CategoryRepository):
         self.repository = repository
 
     def execute(self, request: CreateCategoryRequest) -> CreateCategoryResponse:
